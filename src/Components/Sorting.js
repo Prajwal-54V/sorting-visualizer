@@ -10,11 +10,10 @@ export default function Sorting() {
   const [sorting, setSorting] = useState(false);
   const [curSorting, setCurSorting] = useState("Merge Sort");
   const [curSpeed, setCurSpeed] = useState("1x");
-
-  let sortingCompOnes = false;
+  const [sortingCompOnes, setSortingCompOnes] = useState(false);
 
   //    RANDOM ARRAY GENERATING    //
-  function generateArray() {
+  async function generateArray() {
     var maximum = 99;
     var minimum = 10;
     var l = [];
@@ -24,29 +23,38 @@ export default function Sorting() {
       l.push(randomnumber);
     }
     setArr([...l]);
-    sortingCompOnes = false;
+
     const bars = document.getElementsByClassName("arrayElement");
     for (let i = 0; i < bars.length; i++) {
       bars[i].style.backgroundColor = "white";
+      bars[i].style.height = l[i];
       bars[i].style.color = "black";
     }
+    setSortingCompOnes(false);
+
+    return l;
   }
 
   useEffect(() => {
     generateArray();
   }, []);
 
-  const asyncSetTimeout = ({ timeout } = {}) => {
-    return new Promise((resolve, reject) =>
-      setTimeout(() => resolve(), timeout)
-    );
-  };
+  // const asyncSetTimeout = ({ timeout } = {}) => {
+  //   return new Promise((resolve, reject) =>
+  //     setTimeout(() => resolve(), timeout)
+  //   );
+  // };
 
   //////////////////////////////////////////////////////////////////////
   //          SELECTION SORT         //
   async function SelectionSort() {
+    let ones = sortingCompOnes;
+    let array;
+    if (ones === true) {
+      array = await generateArray();
+    } else array = [...arr];
     setSorting(true);
-    let array = [...arr];
+    // let array = [...arr];
     let selectSpeed = 10;
 
     if (curSpeed === "1x") selectSpeed = 10;
@@ -114,7 +122,7 @@ export default function Sorting() {
       document.getElementsByClassName("arrayElement")[n - 1].style.color =
         "white";
       setSorting(false);
-      sortingCompOnes = true;
+      setSortingCompOnes(true);
       // await asyncSetTimeout(selectSpeed);
     }, selectSpeed);
   }
@@ -122,9 +130,14 @@ export default function Sorting() {
   ///////////////////////////////////////////////////////////////
 
   //         INSERTION SORT           //
-  function InsertionSort() {
+  async function InsertionSort() {
+    let ones = sortingCompOnes;
+    let temp;
+    if (ones === true) {
+      temp = await generateArray();
+    } else temp = [...arr];
     setSorting(true);
-    let temp = [...arr];
+    // let temp = [...arr];
     let selectSpeed = 10;
 
     if (curSpeed === "1x") selectSpeed = 10;
@@ -137,8 +150,6 @@ export default function Sorting() {
     let speed = selectSpeed;
 
     const changeBars = insertionSort(temp);
-
-    let n = temp.length;
 
     for (let i = 0; i < changeBars.length; i++) {
       if (changeBars[i].swap !== null) {
@@ -171,7 +182,6 @@ export default function Sorting() {
             bars[j].style.height = `${(80 / 100) * t[j]}vh`;
             bars[j].style.backgroundColor = "green";
             bars[j].style.color = "white";
-            bars[j].innerHTML = t[j];
           }
         }, selectSpeed);
         selectSpeed += speed;
@@ -179,7 +189,8 @@ export default function Sorting() {
     }
     setTimeout(() => {
       setSorting(false);
-      sortingCompOnes = true;
+
+      setSortingCompOnes(true);
     }, selectSpeed);
   }
 
@@ -187,9 +198,14 @@ export default function Sorting() {
   //
   /////////////////////////////////////////////////////////////////////////////
   //            BUBBLE SORT            //
-  function BubbleSort() {
+  async function BubbleSort() {
+    let ones = sortingCompOnes;
+    let temp;
+    if (ones === true) {
+      temp = await generateArray();
+    } else temp = [...arr];
     setSorting(true);
-    let temp = [...arr];
+    // let temp = [...arr];
     let selectSpeed = 10;
     let cSpeed = curSpeed;
     if (cSpeed === "1x") selectSpeed = 10;
@@ -263,15 +279,21 @@ export default function Sorting() {
       bars[0].style.backgroundColor = "green";
       bars[0].style.color = "white";
       setSorting(false);
-      sortingCompOnes = true;
+
+      setSortingCompOnes(true);
     }, selectSpeed);
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////
   //||            MERGE SORT             ||\\
-  function MergeSort() {
+  async function MergeSort() {
+    let ones = sortingCompOnes;
+    let temp;
+    if (ones === true) {
+      temp = await generateArray();
+    } else temp = [...arr];
     setSorting(true);
-    let temp = [...arr];
+    // let temp = [...arr];
     let selectSpeed = 10;
     let cSpeed = curSpeed;
     if (cSpeed === "1x") selectSpeed = 10;
@@ -282,7 +304,7 @@ export default function Sorting() {
     else selectSpeed = 10;
 
     let speed = selectSpeed;
-    if (temp.length === 0) generateArray();
+    // if (temp.length === 0) generateArray();
     const changeBars = mergeSort(temp);
     let k = 0;
 
@@ -315,20 +337,20 @@ export default function Sorting() {
 
     setTimeout(() => {
       setSorting(false);
-      sortingCompOnes = true;
+
+      setSortingCompOnes(true);
     }, selectSpeed);
   }
 
   function beforeSort() {
-    if (sortingCompOnes) generateArray();
-    let temp = [...arr];
-    const bars = document.getElementsByClassName("arrayElement");
-    for (let i = 0; i < temp.length; i++) {
-      bars[i].style.height = `${(80 / 100) * temp[i]}vh`;
-      bars[i].style.backgroundColor = "white";
-      bars[i].style.color = "black";
-      bars.innerHTML = temp[i];
-    }
+    // let temp = [...arr];
+    // const bars = document.getElementsByClassName("arrayElement");
+    // for (let i = 0; i < temp.length; i++) {
+    //   bars[i].style.height = `${(80 / 100) * temp[i]}vh`;
+    //   bars[i].style.backgroundColor = "white";
+    //   bars[i].style.color = "black";
+    //   bars.innerHTML = temp[i];
+    // }
 
     if (curSorting === "Bubble Sort") {
       BubbleSort();
