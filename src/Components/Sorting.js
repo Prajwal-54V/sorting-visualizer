@@ -182,6 +182,7 @@ export default function Sorting() {
             bars[j].style.height = `${(80 / 100) * t[j]}vh`;
             bars[j].style.backgroundColor = "green";
             bars[j].style.color = "white";
+            bars[j].innerHTML = t[j];
           }
         }, selectSpeed);
         selectSpeed += speed;
